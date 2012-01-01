@@ -3,6 +3,10 @@ import sublime_plugin
 
 
 class QuickfindCommand(sublime_plugin.TextCommand):
+    def __init__(self, view):
+        super(QuickfindCommand, self).__init__(view)
+        view.quickfind_last_search = ''
+
     def run(self, edit, look_backwards=False, use_regex=False):
         # this is a silly way to assign region to the first in RegionSet
         for region in self.view.sel():
@@ -31,6 +35,7 @@ class QuickfindCommand(sublime_plugin.TextCommand):
                     flags = sublime.LITERAL
                 found = self.view.find(search, start, flags)
 
+            self.view.quickfind_last_search = search
             if found:
                 selection = self.view.sel()
                 selection.clear()
@@ -43,4 +48,4 @@ class QuickfindCommand(sublime_plugin.TextCommand):
         if not region.empty():
             on_change(self.view.substr(region))
         else:
-            self.view.window().show_input_panel('Search', '', None, on_change, None)
+            self.view.window().show_input_panel('Search', self.view.quickfind_last_search, None, on_change, None)
