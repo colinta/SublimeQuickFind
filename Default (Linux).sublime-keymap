@@ -1,0 +1,4 @@
+[
+    { "keys": ["ctrl+s"], "command": "goto_chars" },
+    { "keys": ["ctrl+shift+s"], "command": "goto_chars", "args": { "look_backwards": true } }
+]
