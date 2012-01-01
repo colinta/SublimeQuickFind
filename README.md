@@ -15,6 +15,4 @@ Installation
 Commands
 --------
 
-`goto_chars`: Displays an input panel where you can enter a quick search.
-
-`goto_char`: Displays an input panel where you can type a single character.  The cursor will be placed to the left or right of the character, depending on the `after` flag (default `False`).
+`quickfind`: Displays an input panel where you can enter a quick search.  If text is selected, it will search for that text.
