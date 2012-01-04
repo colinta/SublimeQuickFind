@@ -3,11 +3,7 @@ import sublime_plugin
 
 
 class QuickfindCommand(sublime_plugin.TextCommand):
-    def __init__(self, view):
-        super(QuickfindCommand, self).__init__(view)
-        view.quickfind_last_search = ''
-
-    def run(self, edit, look_backwards=False, use_regex=False):
+    def run(self, edit, look_backwards=False, use_regex=False, wrap=True, case_insensitive=True):
         # this is a silly way to assign region to the first in RegionSet
         for region in self.view.sel():
             break
@@ -16,26 +12,35 @@ class QuickfindCommand(sublime_plugin.TextCommand):
             if not len(search):
                 return
 
+            if use_regex:
+                flags = None
+            else:
+                flags = sublime.LITERAL
+
+            if case_insensitive:
+                flags |= sublime.IGNORECASE
+
             if look_backwards:
                 start = region.begin()
                 point = start - 1
-                while point > 0:
-                    found = self.view.find(search, point, sublime.LITERAL)
+                while point >= 0:
+                    found = self.view.find(search, point, flags)
                     if found and found.end() < start:
                         break
                     else:
                         found = None
                     point -= 1
-                sublime.status_message('Could not find "%s"' % search)
+                    # if we get to the beginning, and wrap is enabled, start at the end and keep searching
+                    # unless we already tried that
+                    if point < 0 and wrap and start < self.view.size():
+                        start = point = self.view.size()
+                        point -= 1
             else:
                 start = region.end()
-                if use_regex:
-                    flags = None
-                else:
-                    flags = sublime.LITERAL
                 found = self.view.find(search, start, flags)
+                if not found and wrap:
+                    found = self.view.find(search, 0, flags)
 
-            self.view.quickfind_last_search = search
             if found:
                 selection = self.view.sel()
                 selection.clear()
@@ -45,7 +50,8 @@ class QuickfindCommand(sublime_plugin.TextCommand):
             else:
                 sublime.status_message('Could not find "%s"' % search)
 
-        if not region.empty():
+        cmd, _, _ = self.view.command_history(0, True)
+        if not region.empty() and cmd == 'quickfind':
             on_change(self.view.substr(region))
         else:
-            self.view.window().show_input_panel('Search', self.view.quickfind_last_search, None, on_change, None)
+            self.view.window().show_input_panel('Search', self.view.substr(region), None, on_change, None)

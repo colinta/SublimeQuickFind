@@ -1,6 +1,9 @@
 QuickFind plugin for Sublime Text 2
 ===================================
 
+Works similarly to TextMate's `ctrl+s`.  But if text is already selected, it will be the default search.  Keep pressing `ctrl+s` to search for the next instance.
+
+
 Installation
 ------------
 
@@ -15,4 +18,11 @@ Installation
 Commands
 --------
 
-`quickfind`: Displays an input panel where you can enter a quick search.  If text is selected, it will search for that text.
+`quickfind`: Displays an input panel where you can enter a quick search.  If text is selected, it will search for that text if the previous command was 'quickfind'.
+
+Default search settings are:
+
+* `wrap`: True
+* `case_insensitve`: True
+* `use_regex`: False
+* `look_backwards`: False
