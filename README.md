@@ -1,4 +1,4 @@
-QuickFind plugin for Sublime Text 2
+Quickfind plugin for Sublime Text 2
 ===================================
 
 Works similarly to TextMate's `ctrl+s`.  But if text is already selected, it will be the default search.  Keep pressing `ctrl+s` to search for the next instance.
