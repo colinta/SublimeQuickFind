@@ -7,6 +7,10 @@ Works similarly to TextMate's `ctrl+s`.  But if text is already selected, it wil
 Installation
 ------------
 
+1. Using Package Control, install "Quickfind"
+
+Or:
+
 1. Open the Sublime Text 2 Packages folder
 
     - OS X: ~/Library/Application Support/Sublime Text 2/Packages/
