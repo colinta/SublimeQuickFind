@@ -1,0 +1,5 @@
+[
+    { "keys": ["ctrl+s"], "command": "quickfind" },
+    { "keys": ["ctrl+alt+s"], "command": "quickfind", "args": { "use_regex": true } },
+    { "keys": ["ctrl+shift+s"], "command": "quickfind", "args": { "look_backwards": true } }
+]
