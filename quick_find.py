@@ -23,7 +23,10 @@ class QuickfindCommand(sublime_plugin.TextCommand):
                     break
                 else:
                     found = None
-                point -= 1
+                if use_regex:
+                    point -= 1
+                else:
+                    point -= len(search)
                 # if we get to the beginning, and wrap is enabled, start at the end and keep searching
                 # unless we already tried that
                 if point < 0 and wrap and start < self.view.size():
