@@ -45,11 +45,18 @@ class QuickfindCommand(sublime_plugin.TextCommand):
                 found = self.view.find(search, 0, flags)
 
         if extend:
-            found = sublime.Region(region.a, found.begin())
+            if look_backwards:
+                found = sublime.Region(region.end(), found.end())
+            else:
+                found = sublime.Region(region.begin(), found.begin())
         return found
 
     def run(self, edit, **kwargs):
         regions = [region for region in self.view.sel()]
+
+        if kwargs.get('extend'):
+            # change default 'wrap' when extend is true.
+            kwargs.setdefault('wrap', False)
 
         # any edits that are performed will happen in reverse; this makes it
         # easy to keep region.a and region.b pointing to the correct locations
@@ -80,16 +87,25 @@ class QuickfindCommand(sublime_plugin.TextCommand):
             else:
                 sublime.status_message('Could not find "%s"' % search)
 
-        cmd, _, _ = self.view.command_history(0, True)
-        selection = self.view.substr(first_region)
-        if selection and any([selection != self.view.substr(region) for region in regions]):
-            selection = None
+        if kwargs.get('use_regex') or kwargs.get('extend'):
+            selection = ''
+        else:
+            selection = self.view.substr(first_region)
+            cmd, _, _ = self.view.command_history(0, True)
+            if selection and any([selection != self.view.substr(region) for region in regions]):
+                cmd = None
 
         if selection and cmd == 'quickfind':
             on_change_each(selection)
         else:
-            if 'use_regex' in kwargs and kwargs['use_regex']:
+            if kwargs.get('use_regex'):
                 prompt = "Regex Search"
             else:
                 prompt = "Search"
-            self.view.window().show_input_panel(prompt, self.view.substr(first_region), None, on_change_each, None)
+
+            if kwargs.get('look_backwards'):
+                prompt += ' Backwards'
+
+            if kwargs.get('extend'):
+                prompt += ' and Extend'
+            self.view.window().show_input_panel(prompt, selection, None, on_change_each, None)
