@@ -3,7 +3,13 @@ import sublime_plugin
 
 
 class QuickfindCommand(sublime_plugin.TextCommand):
-    def quickfind(self, search, region, look_backwards=False, use_regex=None, wrap=True, case_insensitive=True):
+    def quickfind(self, search, region,
+            look_backwards=False,
+            use_regex=None,
+            wrap=True,
+            case_insensitive=True,
+            extend=False,
+            ):
         if not len(search):
             return
 
@@ -38,6 +44,8 @@ class QuickfindCommand(sublime_plugin.TextCommand):
             if not found and wrap:
                 found = self.view.find(search, 0, flags)
 
+        if extend:
+            found = sublime.Region(region.a, found.begin())
         return found
 
     def run(self, edit, **kwargs):
@@ -63,7 +71,12 @@ class QuickfindCommand(sublime_plugin.TextCommand):
                 selection.clear()
                 for region in new_regions:
                     selection.add(region)
+
+                pos = self.view.viewport_position()
                 self.view.show_at_center(region)
+                new_pos = self.view.viewport_position()
+                if abs(new_pos[0] - pos[0]) <= 1.0 and abs(new_pos[1] - pos[1]) <= 1.0:
+                    self.view.set_viewport_position((new_pos[0], new_pos[1] + 1))
             else:
                 sublime.status_message('Could not find "%s"' % search)
 

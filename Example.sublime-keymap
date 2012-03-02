@@ -1,5 +1,7 @@
 [
     { "keys": ["ctrl+s"], "command": "quickfind" },
-    { "keys": ["ctrl+alt+s"], "command": "quickfind", "args": { "use_regex": true } },
-    { "keys": ["ctrl+shift+s"], "command": "quickfind", "args": { "look_backwards": true } }
+    { "keys": ["ctrl+shift+s"], "command": "quickfind", "args": { "extend": true } },
+    { "keys": ["alt+s"], "command": "quickfind", "args": { "look_backwards": true } },
+    { "keys": ["alt+shift+s"], "command": "quickfind", "args": { "look_backwards": true, "extend": true } },
+    { "keys": ["ctrl+alt+s"], "command": "quickfind", "args": { "use_regex": true } }
 ]
