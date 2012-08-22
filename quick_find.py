@@ -44,7 +44,7 @@ class QuickfindCommand(sublime_plugin.TextCommand):
             if not found and wrap:
                 found = self.view.find(search, 0, flags)
 
-        if extend:
+        if found and extend:
             if look_backwards:
                 found = sublime.Region(region.end(), found.end())
             else:
