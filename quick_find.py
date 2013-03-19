@@ -22,7 +22,7 @@ class QuickfindCommand(sublime_plugin.TextCommand):
 
         if look_backwards:
             start = region.begin()
-            point = start - 1
+            point = start
             while point >= 0:
                 found = self.view.find(search, point, flags)
                 if found and found.end() < start:
@@ -31,8 +31,10 @@ class QuickfindCommand(sublime_plugin.TextCommand):
                     found = None
                 if use_regex:
                     point -= 1
-                else:
+                elif point > len(search):
                     point -= len(search)
+                else:
+                    point -= 1
                 # if we get to the beginning, and wrap is enabled, start at the end and keep searching
                 # unless we already tried that
                 if point < 0 and wrap and start < self.view.size():
