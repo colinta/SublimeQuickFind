@@ -56,21 +56,16 @@ class QuickfindCommand(sublime_plugin.TextCommand):
         return found
 
     def run(self, edit, **kwargs):
-        regions = [region for region in self.view.sel()]
+        regions = list(self.view.sel())
 
         if kwargs.get('extend'):
             # change default 'wrap' when extend is true.
             kwargs.setdefault('wrap', False)
 
-        # any edits that are performed will happen in reverse; this makes it
-        # easy to keep region.a and region.b pointing to the correct locations
-        def get_end(region):
-            return region.end()
-        regions.sort(key=get_end, reverse=True)
         first_region = regions[0]
 
         def on_change_each(search):
-            new_regions = filter(bool, (self.quickfind(search, region, **kwargs) for region in regions))
+            new_regions = list(filter(bool, (self.quickfind(search, region, **kwargs) for region in regions)))
 
             if new_regions:
                 if len(new_regions) > 1:
