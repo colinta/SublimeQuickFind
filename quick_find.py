@@ -94,7 +94,7 @@ class QuickfindCommand(sublime_plugin.TextCommand):
             selection = ''
         else:
             selection = self.view.substr(first_region)
-            cmd, _, _ = self.view.command_history(0, True)
+            cmd, _, _ = self.view.command_history(0, False)
             if selection and any([selection != self.view.substr(region) for region in regions]):
                 cmd = None
 
