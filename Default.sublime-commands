@@ -1,6 +1,6 @@
 [
     {
-        "caption": "Goto Characters",
-        "command": "goto_chars"
+        "caption": "Quickfind",
+        "command": "quickfind"
     }
 ]
