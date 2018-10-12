@@ -79,11 +79,7 @@ class QuickfindCommand(sublime_plugin.TextCommand):
                     selection.add(region)
 
                 pos = self.view.viewport_position()
-                self.view.show_at_center(region)
-                new_pos = self.view.viewport_position()
-                if abs(new_pos[0] - pos[0]) <= 1.0 and abs(new_pos[1] - pos[1]) <= 1.0:
-                    self.view.set_viewport_position((new_pos[0], new_pos[1] + 1))
-                    self.view.set_viewport_position((new_pos[0], new_pos[1]))
+                self.view.show(region)
             else:
                 sublime.status_message('Could not find "%s"' % search)
 
