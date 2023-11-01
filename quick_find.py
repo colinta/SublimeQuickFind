@@ -81,7 +81,7 @@ class QuickfindCommand(sublime_plugin.TextCommand):
                 pos = self.view.viewport_position()
                 self.view.show(region)
             else:
-                sublime.status_message('Could not find "%s"' % search)
+                self.view.show_popup('Could not find "%s"' % search)
 
         if kwargs.get('use_regex') or kwargs.get('extend'):
             selection = ''
