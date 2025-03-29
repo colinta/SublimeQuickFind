@@ -6,17 +6,10 @@ Works similarly to TextMate's `ctrl+s`.  But if text is already selected, it wil
 Installation
 ------------
 
-1. Using Package Control, install "Quickfind"
+Using Package Control, install "Quickfind" or clone this repo in your packages folder.
 
-Or:
-
-1. Open the Sublime Text Packages folder
-    - OS X: ~/Library/Application Support/Sublime Text 3/Packages/
-    - Windows: %APPDATA%/Sublime Text 3/Packages/
-    - Linux: ~/.Sublime Text 3/Packages/ or ~/.config/sublime-text-3/Packages
-
-2. clone this repo
-3. Install keymaps for the commands (see Example.sublime-keymap for my preferred keys)
+I recommended you add key bindings for the commands. I've included my preferred bindings below.
+Copy them to your key bindings file (⌘⇧,).
 
 Commands
 --------
@@ -34,3 +27,16 @@ Default search settings are:
 * `use_regex`: False
 * `look_backwards`: False
 * `extend`: False
+
+Key Bindings
+------------
+
+Copy these to your user key bindings file.
+
+<!-- keybindings start -->
+    { "keys": ["ctrl+s"], "command": "quickfind" },
+    { "keys": ["ctrl+shift+s"], "command": "quickfind", "args": { "extend": true } },
+    { "keys": ["alt+s"], "command": "quickfind", "args": { "look_backwards": true } },
+    { "keys": ["alt+shift+s"], "command": "quickfind", "args": { "look_backwards": true, "extend": true } },
+    { "keys": ["ctrl+alt+s"], "command": "quickfind", "args": { "use_regex": true } },
+<!-- keybindings stop -->
