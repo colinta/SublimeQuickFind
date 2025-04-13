@@ -1,16 +1,16 @@
 {
   "name": "Quickfind",
+  "details": "https://github.com/colinta/SublimeQuickfind",
   "description": "Works similarly to TextMate's ctrl+s.  But if text is already selected, it will be the default search.  Keep pressing ctrl+s to search for the next instance.",
   "author": "Colin T.A. Gray (colinta)",
-  "details": "https://github.com/colinta/SublimeQuickfind",
   "labels": [
     "file navigation",
     "search"
   ],
   "releases": [
     {
-      "tags": true,
-      "sublime_text": ">=3000"
+      "sublime_text": ">=3000",
+      "tags": true
     }
   ]
 }
